@@ -36,9 +36,6 @@ class SearchPlacesController: UITableViewController {
         self.initConfigBackBarButton()
         self.initFiltersFields()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-    }
 
     // MARK: - Table view data source
 

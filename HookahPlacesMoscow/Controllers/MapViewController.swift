@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
     
     var results: [Place] = []
     
-    var idSelectPlace: Int!
+    var place: Place!
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -85,7 +85,12 @@ class MapViewController: UIViewController {
         detailPlaceView.isHidden = true
         closeDetailViewButton.isHidden = true
         configureLocationServices()
-        initAnnotationsPlaces()
+        if place == nil {
+            initAnnotationsPlaces()
+        }
+        else {
+            initSelectedPlace()
+        }
         initConfigBackBarButton()
     }
     
@@ -95,7 +100,7 @@ class MapViewController: UIViewController {
         switch segue.identifier {
         case "toDetailSegue":
             let controller = segue.destination as? DetailPlaceController
-            controller?.place = results[idSelectPlace]
+            controller?.place = place
         default:
             return
         }
@@ -131,6 +136,12 @@ class MapViewController: UIViewController {
         }
     }
     
+    func initSelectedPlace() {
+        mapView.addAnnotation(newPointAnnotation(place: place))
+        let zoomRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude), latitudinalMeters: 1000, longitudinalMeters: 1000)
+        mapView.setRegion(zoomRegion, animated: true)
+    }
+    
     // Создание аннотации
     func newPointAnnotation(place: Place) -> PointAnnotation {
         let marker = PointAnnotation()
@@ -160,7 +171,7 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let latestLocation = locations.first else { return }
-        if currentCoordinate == nil {
+        if currentCoordinate == nil, place == nil {
             zoomToLatestocation(with: latestLocation.coordinate)
         }
         currentCoordinate = latestLocation.coordinate
@@ -203,11 +214,14 @@ extension MapViewController: MKMapViewDelegate {
     
     // Нажатие на аннотацию
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let zoomRegion = MKCoordinateRegion(center: (view.annotation?.coordinate)!, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        mapView.setRegion(zoomRegion, animated: true)
         self.detailPlaceView.isHidden = false
         self.closeDetailViewButton.isHidden = false
         let tag = (view.annotation as? PointAnnotation)?.tag
-        idSelectPlace = Int(tag!)
-        let place = results[idSelectPlace]
+        if results.count > 1 {
+            place = results[Int(tag!)]
+        }
         self.configureDetailView(place: place)
     }
     

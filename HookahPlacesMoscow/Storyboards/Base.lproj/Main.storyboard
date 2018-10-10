@@ -282,6 +282,9 @@
                                         <state key="normal" title="  Показать на карте" image="map_marker">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="yw6-A8-2nw" kind="presentation" identifier="segueToMap" id="hll-da-BOK"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nh1-Y8-jVc">
                                         <rect key="frame" x="19" y="234" width="337" height="35"/>
@@ -1106,7 +1109,7 @@
                                         <rect key="frame" x="23" y="23" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="МосКальян Свиблово" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qF-8E-U4z">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="МосКальян Свиблово" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7qF-8E-U4z">
                                         <rect key="frame" x="118" y="15" width="217" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="17"/>
@@ -1163,6 +1166,9 @@
                                         <state key="normal" title="  5" image="people">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="Rzu-XZ-ErV" kind="show" id="HbM-yW-Wjc"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1297,6 +1303,8 @@
         <image name="users" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="hll-da-BOK"/>
+        <segue reference="2cZ-d9-PpW"/>
         <segue reference="gTq-gT-yS4"/>
     </inferredMetricsTieBreakers>
 </document>

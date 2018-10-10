@@ -129,6 +129,10 @@ class DetailPlaceController: UIViewController {
         case "segueToInfoFilters":
             let controller = segue.destination as? InfoPlaceFiltersController
             controller?.place = place
+        case "segueToMap":
+            let navController = segue.destination as? UINavigationController
+            let controller = navController?.viewControllers.first as? MapViewController
+            controller?.place = place
         default:
             return
         }
