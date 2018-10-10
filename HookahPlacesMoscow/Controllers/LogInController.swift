@@ -10,6 +10,8 @@ import UIKit
 import FirebaseAuth
 
 class LogInController: UIViewController {
+    
+    var profileViewController: ProfileViewController?
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -60,6 +62,10 @@ class LogInController: UIViewController {
                     alertController.addAction(repeatSendMessageAction)
                     self.present(alertController, animated: true, completion: nil)
                     return
+                }
+                if self.profileViewController != nil {
+                    self.profileViewController?.loginButton.removeFromSuperview()
+                    self.profileViewController?.initDataUser()
                 }
                 self.dismiss(animated: true, completion: nil)
             }

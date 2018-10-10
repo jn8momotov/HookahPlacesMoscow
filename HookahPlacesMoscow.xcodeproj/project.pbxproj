@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		48FE67F33BC31874F44446E6 /* Pods_HookahPlacesMoscow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D932496061F825097B5C76DA /* Pods_HookahPlacesMoscow.framework */; };
 		7A036F4421550F31003C759C /* MainPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A036F4321550F31003C759C /* MainPlaceCell.swift */; };
+		7A33DC6D216EA7B10095CB7B /* InfoPlaceFiltersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A33DC6C216EA7B10095CB7B /* InfoPlaceFiltersController.swift */; };
+		7A33DC6F216EA9C40095CB7B /* InfoFilterPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A33DC6E216EA9C40095CB7B /* InfoFilterPlaceCell.swift */; };
 		7A39AE682167EDC4009BC2F5 /* FiltersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A39AE672167EDC4009BC2F5 /* FiltersController.swift */; };
 		7A39AE6A2167EDEC009BC2F5 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A39AE692167EDEC009BC2F5 /* FilterCell.swift */; };
 		7A447FC721640E3F0093D162 /* LogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A447FC621640E3F0093D162 /* LogInController.swift */; };
@@ -43,6 +45,8 @@
 /* Begin PBXFileReference section */
 		6AD887D1DC59F806BFE173AB /* Pods-HookahPlacesMoscow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HookahPlacesMoscow.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HookahPlacesMoscow/Pods-HookahPlacesMoscow.debug.xcconfig"; sourceTree = "<group>"; };
 		7A036F4321550F31003C759C /* MainPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlaceCell.swift; sourceTree = "<group>"; };
+		7A33DC6C216EA7B10095CB7B /* InfoPlaceFiltersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlaceFiltersController.swift; sourceTree = "<group>"; };
+		7A33DC6E216EA9C40095CB7B /* InfoFilterPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoFilterPlaceCell.swift; sourceTree = "<group>"; };
 		7A39AE672167EDC4009BC2F5 /* FiltersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersController.swift; sourceTree = "<group>"; };
 		7A39AE692167EDEC009BC2F5 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		7A447FC621640E3F0093D162 /* LogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInController.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 				7AD998112167FFC100D2FF77 /* SearchPlacesController.swift */,
 				7AEBB305216D4FDA003E8C30 /* UsersToPlaceController.swift */,
 				7AEBB309216D6609003E8C30 /* ResetPasswordController.swift */,
+				7A33DC6C216EA7B10095CB7B /* InfoPlaceFiltersController.swift */,
 				7ABA0929216022BD00820541 /* ExtensionViewController.swift */,
 			);
 			path = Controllers;
@@ -178,6 +183,7 @@
 				7A39AE692167EDEC009BC2F5 /* FilterCell.swift */,
 				7AD998132168063600D2FF77 /* SearchPlaceCell.swift */,
 				7AEBB307216D50C8003E8C30 /* UserToPlaceCell.swift */,
+				7A33DC6E216EA9C40095CB7B /* InfoFilterPlaceCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -343,9 +349,11 @@
 				7A447FC921641B960093D162 /* SignUpController.swift in Sources */,
 				7A036F4421550F31003C759C /* MainPlaceCell.swift in Sources */,
 				7ABB643B2153C6A8008D00E4 /* MainController.swift in Sources */,
+				7A33DC6D216EA7B10095CB7B /* InfoPlaceFiltersController.swift in Sources */,
 				7ABB64262153C1B7008D00E4 /* AppDelegate.swift in Sources */,
 				7ABA092C216025CC00820541 /* DetailPlaceController.swift in Sources */,
 				7A447FC721640E3F0093D162 /* LogInController.swift in Sources */,
+				7A33DC6F216EA9C40095CB7B /* InfoFilterPlaceCell.swift in Sources */,
 				7AC03F832162AE58005F2C0F /* TimeTableSegmentioControl.swift in Sources */,
 				7AC03F902162CB19005F2C0F /* MapViewController.swift in Sources */,
 				7AD998142168063600D2FF77 /* SearchPlaceCell.swift in Sources */,

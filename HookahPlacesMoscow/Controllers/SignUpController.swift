@@ -15,15 +15,23 @@ class SignUpController: UIViewController {
     
     var databaseRef: DatabaseReference!
     
-    @IBOutlet weak var imageProfileButton: UIButton! {
+    @IBOutlet weak var addPhotoButton: UIButton! {
         didSet {
-            self.imageProfileButton.setTitle("ДОБАВИТЬ\nФОТО", for: .normal)
-            self.imageProfileButton.titleLabel?.textAlignment = .center
-            self.imageProfileButton.titleLabel?.numberOfLines = 2
-            self.imageProfileButton.layer.cornerRadius = 55
-            self.imageProfileButton.layer.borderWidth = 5
-            self.imageProfileButton.layer.borderColor = UIColor.black.cgColor
-            self.imageProfileButton.clipsToBounds = true
+            addPhotoButton.layer.cornerRadius = 5
+            addPhotoButton.layer.borderWidth = 2
+            addPhotoButton.layer.borderColor = UIColor.black.cgColor
+            addPhotoButton.clipsToBounds = true
+        }
+    }
+    
+    @IBOutlet weak var imageProfileView: UIImageView! {
+        didSet {
+            imageProfileView.contentMode = .scaleAspectFill
+            imageProfileView.image = UIImage(named: "noImageUser")
+            imageProfileView.layer.cornerRadius = 55
+            imageProfileView.layer.borderColor = UIColor.black.cgColor
+            imageProfileView.layer.borderWidth = 4
+            imageProfileView.clipsToBounds = true
         }
     }
     
@@ -57,15 +65,17 @@ class SignUpController: UIViewController {
         self.addLineToView(view: self.repeatPasswordTextField, color: .black, width: 3)
     }
     
-    @IBAction func imageProfileButtonPressed(_ sender: Any) {
+    // MARK: - IBAction
+    
+    @IBAction func addPhotoUserButtonPressed(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.view.tintColor = UIColor.black
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         let openLibraryAction = UIAlertAction(title: "Выбрать из галереи", style: .default) { (openLibraryAction) in
-            
+            self.showPhotoLibrary()
         }
         let takePhotoAction = UIAlertAction(title: "Сделать фото", style: .default) { (takePhotoAction) in
-            
+            self.showCamera()
         }
         alertController.addAction(cancelAction)
         alertController.addAction(takePhotoAction)
@@ -107,14 +117,36 @@ class SignUpController: UIViewController {
     }
     */
     
+    // MARK: - Functions
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    func showCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let pickerImage = UIImagePickerController()
+            pickerImage.delegate = self
+            pickerImage.sourceType = .camera
+            pickerImage.allowsEditing = false
+            self.present(pickerImage, animated: true, completion: nil)
+        }
+    }
+    
+    func showPhotoLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let pickerImage = UIImagePickerController()
+            pickerImage.delegate = self
+            pickerImage.sourceType = .photoLibrary
+            pickerImage.allowsEditing = false
+            self.present(pickerImage, animated: true, completion: nil)
+        }
+    }
+    
     func addNewUser() {
         let storeRef = Storage.storage().reference()
-        let usersRef = storeRef.child("Users/\((Auth.auth().currentUser?.uid)!).jpg")
-        if let image = self.imageProfileButton.currentBackgroundImage {
+        let usersRef = storeRef.child("users/\((Auth.auth().currentUser?.uid)!).png")
+        if let image = imageProfileView.image {
             let data = image.pngData()
             usersRef.putData(data!, metadata: nil)
         }
@@ -157,4 +189,14 @@ class SignUpController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+}
+
+extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        imageProfileView.image = image
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }

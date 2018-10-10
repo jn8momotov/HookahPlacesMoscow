@@ -90,9 +90,9 @@ class DetailPlaceController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initData()
-        self.initSegmentedControl()
-        //self.initMapView()
+        initData()
+        initSegmentedControl()
+        initConfigBackBarButton()
     }
     
     @IBAction func isLikeBarButtonPressed(_ sender: Any) {
@@ -126,6 +126,9 @@ class DetailPlaceController: UIViewController {
         switch segue.identifier {
         case "segueToUsersToPlaceController":
             let controller = segue.destination as? UsersToPlaceController
+        case "segueToInfoFilters":
+            let controller = segue.destination as? InfoPlaceFiltersController
+            controller?.place = place
         default:
             return
         }
