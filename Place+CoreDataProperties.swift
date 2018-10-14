@@ -28,6 +28,9 @@ extension Place {
     @NSManaged public var phone: String?
     @NSManaged public var rating: Double
     @NSManaged public var id: Int16
+    @NSManaged public var ratingStaff: Double
+    @NSManaged public var ratingPlace: Double
+    @NSManaged public var ratingHookah: Double
     
     @NSManaged public var isLike: Bool
     

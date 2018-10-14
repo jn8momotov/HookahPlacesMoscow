@@ -23,6 +23,8 @@ class MainController: UITableViewController {
     
     let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
     
+    var databaseRef: DatabaseReference!
+    
     var results: [Place] = []
     
     private let locationManager: CLLocationManager = CLLocationManager()
@@ -68,6 +70,17 @@ class MainController: UITableViewController {
     // MARK: - Refresh Control
     
     @IBAction func refreshControlAction(_ sender: Any) {
+        if segmentio.segmentioView.selectedSegmentioIndex == 0 {
+            self.fetchRequest.sortDescriptors = [NSSortDescriptor(key: "rating", ascending: false)]
+        }
+        else {
+            self.fetchRequest.sortDescriptors = [NSSortDescriptor(key: "distance", ascending: true)]
+        }
+        do {
+            self.results = try context.fetch(fetchRequest)
+        } catch {
+            print(error.localizedDescription)
+        }
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
     }
@@ -156,11 +169,12 @@ extension MainController {
     
     func loadData(completionHandler: (() -> Void)?) {
         let entityPlace = NSEntityDescription.entity(forEntityName: "Place", in: context)
-        let databaseRef = Database.database().reference()
+        databaseRef = Database.database().reference()
         databaseRef.child("countPlaces").observeSingleEvent(of: .value, with: { (snapshot) in
             let count = snapshot.value as? NSInteger
             var index = 0
             guard try! self.context.count(for: self.fetchRequest) == 0 else {
+                print("НАЧИНАЕМ ОБНОВЛЯТЬ ДАННЫЕ!")
                 while index < count! {
                     let fetchWithIdRequest: NSFetchRequest<Place> = Place.fetchRequest()
                     fetchWithIdRequest.predicate = NSPredicate(format: "id = \(index)")
@@ -172,11 +186,16 @@ extension MainController {
                         let place = objects[0]
                         if let coords = self.currentCoordinate {
                             place.distance = self.distanceKm(from: coords, toLatitude: place.latitude, toLongitude: place.longitude)
+                            print("ДАННЫЕ ОБНОВЛЕНЫ!")
                         }
-                        else {
-                            place.distance = 0.0
-                        }
-                        try self.context.save()
+                        self.databaseRef.child("places/\(place.id)").observeSingleEvent(of: .value, with: { (snapshot) in
+                            let obj = snapshot.value as? NSDictionary
+                            place.rating = obj?["rating"] as? Double ?? 0.0
+                            place.ratingHookah = obj?["ratingHookah"] as? Double ?? 0.0
+                            place.ratingPlace = obj?["ratingPlace"] as? Double ?? 0.0
+                            place.ratingStaff = obj?["ratingStaff"] as? Double ?? 0.0
+                        })
+                    try self.context.save()
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -186,7 +205,7 @@ extension MainController {
                 return
             }
             while index < count! {
-                let objPlaceRef = databaseRef.child("places/\(index)")
+                let objPlaceRef = self.databaseRef.child("places/\(index)")
                 objPlaceRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     let place = snapshot.value as? NSDictionary
                     let id = place?["id"] as? Int16 ?? 0
@@ -204,6 +223,9 @@ extension MainController {
                                             address: place?["address"] as? String ?? "",
                                             phone: place?["phone"] as? String ?? "",
                                             rating: place?["rating"] as? Double ?? 0.0,
+                                            ratingHookah: place?["ratingHookah"] as? Double ?? 0.0,
+                                            ratingPlace: place?["ratingPlace"] as? Double ?? 0.0,
+                                            ratingStaff: place?["ratingStaff"] as? Double ?? 0.0,
                                             latitude: place?["latitude"] as? Double ?? 0.0,
                                             longitude: place?["longitude"] as? Double ?? 0.0,
                                             countUsers: place?["countCurrentUsers"] as? Int16 ?? 0,
@@ -232,7 +254,7 @@ extension MainController {
         self.locationManager.startUpdatingLocation()
     }
     
-    func addPlaceObject(entity: NSEntityDescription?, id: Int16, name: String, metroStation: String, address: String, phone: String, rating: Double, latitude: Double, longitude: Double, countUsers: Int16, image: UIImage?, restarting: Bool, theirFoot: Bool, theirDrink: Bool, theirAlko: Bool, tableGames: Bool, gameConsole: Bool, wifi: Bool, bankCard: Bool) {
+    func addPlaceObject(entity: NSEntityDescription?, id: Int16, name: String, metroStation: String, address: String, phone: String, rating: Double, ratingHookah: Double, ratingPlace: Double, ratingStaff: Double, latitude: Double, longitude: Double, countUsers: Int16, image: UIImage?, restarting: Bool, theirFoot: Bool, theirDrink: Bool, theirAlko: Bool, tableGames: Bool, gameConsole: Bool, wifi: Bool, bankCard: Bool) {
         let place = NSManagedObject(entity: entity!, insertInto: context) as! Place
         place.id = id
         place.name = name
@@ -240,6 +262,9 @@ extension MainController {
         place.address = address
         place.phone = phone
         place.rating = rating
+        place.ratingHookah = ratingHookah
+        place.ratingPlace = ratingPlace
+        place.ratingStaff = ratingStaff
         place.latitude = latitude
         place.longitude = longitude
         place.countUsers = countUsers

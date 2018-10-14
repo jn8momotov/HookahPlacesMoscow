@@ -161,7 +161,7 @@ class SignUpController: UIViewController {
                 "name": self.nameTextField.text!,
                 "email": self.emailTextField.text!,
                 "countPlace": 0,
-                "countReviews": 0
+                "countAssessment": 0
                 ])
             self.databaseRef.child("countUsers").setValue(countUsers! + 1)
         }, withCancel: { (error) in

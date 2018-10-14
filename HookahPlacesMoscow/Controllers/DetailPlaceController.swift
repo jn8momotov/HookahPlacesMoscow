@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import FirebaseAuth
+import FirebaseDatabase
 import Segmentio
 import MapKit
 
@@ -16,8 +17,11 @@ class DetailPlaceController: UIViewController {
 
     var place: Place!
     var timeTableSegmentio: TimeTableSegmentioControl!
+    var isAssessment: Bool!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var databaseRef: DatabaseReference!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var namePlaceLabel: UILabel!
@@ -26,7 +30,6 @@ class DetailPlaceController: UIViewController {
     @IBOutlet weak var imagePlaceView: UIImageView!
     @IBOutlet weak var TimeTableView: UIView!
     @IBOutlet weak var isLikeBarButton: UIBarButtonItem!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var ratingPlaceLabel: UILabel!
     
     @IBOutlet weak var addRatingPlaceButton: UIButton! {
@@ -90,8 +93,11 @@ class DetailPlaceController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        databaseRef = Database.database().reference()
+        initIsAssessment()
         initData()
         initSegmentedControl()
+        updateRating()
         initConfigBackBarButton()
     }
     
@@ -120,6 +126,24 @@ class DetailPlaceController: UIViewController {
         }
     }
     
+    @IBAction func addAssessmentButtonPressed(_ sender: Any) {
+        guard Auth.auth().currentUser != nil else {
+            let controller = storyboard?.instantiateViewController(withIdentifier: "loginViewController") as? LogInController
+            self.present(controller!, animated: true, completion: nil)
+            return
+        }
+        
+        if isAssessment {
+            defaultAlertController(title: "Отметка", message: "Вы уже ставили оценку этому заведению", actionTitle: "OK", handler: nil)
+            return
+        }
+        
+        let navController = storyboard?.instantiateViewController(withIdentifier: "navControllerAssessment") as? UINavigationController
+        let controller = navController?.viewControllers.first as? AssessmentPlaceController
+        controller?.place = place
+        self.present(navController!, animated: true, completion: nil)
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -139,14 +163,15 @@ class DetailPlaceController: UIViewController {
     }
 
     func initData() {
-        self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1090)
+        self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 750)
         self.namePlaceLabel.text = "\(self.place.name!) \(self.place.metroStation!)"
         self.addressPlaceLabel.text = "\(self.place.distance) км, \(self.place.address!)"
-        self.phonePlaceLabel.text = "Телефон: \(self.place.phone!)"
+        let phone = place.phone!
+        self.phonePlaceLabel.text = "Телефон: +7 (\(phone[phone.index(phone.startIndex, offsetBy: 1)...phone.index(phone.startIndex, offsetBy: 3)])) \(phone[phone.index(phone.startIndex, offsetBy: 4)...phone.index(phone.startIndex, offsetBy: 6)]) \(phone[phone.index(phone.startIndex, offsetBy: 7)...phone.index(phone.startIndex, offsetBy: 8)]) \(phone[phone.index(phone.startIndex, offsetBy: 9)...phone.index(phone.startIndex, offsetBy: 10)])"
         self.ratingPlaceLabel.text = "\(place.rating)"
-        self.hookahRatingProgressView.progress = Float(self.place.rating / 10.0 * 2.0)
-        self.placeRatingProgressView.progress = Float(self.place.rating / 10.0 * 2.0)
-        self.staffRatingProgressView.progress = Float(self.place.rating / 10.0 * 2.0)
+        self.hookahRatingProgressView.progress = Float(self.place.ratingHookah / 10.0 * 2.0)
+        self.placeRatingProgressView.progress = Float(self.place.ratingPlace / 10.0 * 2.0)
+        self.staffRatingProgressView.progress = Float(self.place.ratingStaff / 10.0 * 2.0)
         if place.isLike {
             self.isLikeBarButton.tintColor = UIColor.red
         }
@@ -177,17 +202,6 @@ class DetailPlaceController: UIViewController {
         )
     }
     
-//    func initMapView() {
-//        let annotation = MKPointAnnotation()
-//        let coordinate = CLLocationCoordinate2D(latitude: self.place.latitude, longitude: self.place.longitude)
-//        annotation.coordinate = coordinate
-//        annotation.title = self.place.name!
-//        annotation.subtitle = self.place.metroStation!
-//        let zoomRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-//        self.mapView.addAnnotation(annotation)
-//        self.mapView.setRegion(zoomRegion, animated: true)
-//    }
-    
     func changeIsLike(isLike: Bool) {
         let fetchRequest = NSFetchRequest<Place>(entityName: "Place")
         fetchRequest.predicate = NSPredicate(format: "id = \(self.place.id)")
@@ -203,4 +217,56 @@ class DetailPlaceController: UIViewController {
             print(error.localizedDescription)
         }
     }
+    
+    func initIsAssessment() {
+        isAssessment = false
+        databaseRef.child("places/\(place.id)/countAssessment").observe(.value) { (snapshot) in
+            let count = snapshot.value as? Int ?? 0
+            var index = 0
+            while index < count {
+                self.databaseRef.child("places/\(self.place.id)/assessments/\(index)/id").observeSingleEvent(of: .value, with: { (snapshot) in
+                    let id = snapshot.value as? String ?? ""
+                    if id == Auth.auth().currentUser?.uid {
+                        self.isAssessment = true
+                        self.addRatingPlaceButton.setTitle("  Вы оценили", for: .normal)
+                        return
+                    }
+                })
+                index += 1
+            }
+        }
+    }
+    
+    func updateRating() {
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = \(self.place.id)")
+        var results: [Place] = []
+        do {
+            results = try self.context.fetch(fetchRequest)
+        } catch {
+            print(error.localizedDescription)
+        }
+        guard results.count != 0 else {
+            return
+        }
+        let placeCore = results[0]
+        print(results.count)
+        databaseRef.child("places/\(place.id)").observeSingleEvent(of: .value) { (snapshot) in
+            let object = snapshot.value as? NSDictionary
+            placeCore.rating = object?["rating"] as? Double ?? 0.0
+            placeCore.ratingHookah = object?["ratingHookah"] as? Double ?? 0.0
+            placeCore.ratingPlace = object?["ratingPlace"] as? Double ?? 0.0
+            placeCore.ratingStaff = object?["ratingStaff"] as? Double ?? 0.0
+            self.ratingPlaceLabel.text = "\(placeCore.rating)"
+            self.hookahRatingProgressView.progress = Float(placeCore.ratingHookah / 10.0 * 2.0)
+            self.placeRatingProgressView.progress = Float(placeCore.ratingPlace / 10.0 * 2.0)
+            self.staffRatingProgressView.progress = Float(placeCore.ratingStaff / 10.0 * 2.0)
+            do {
+                try self.context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
 }

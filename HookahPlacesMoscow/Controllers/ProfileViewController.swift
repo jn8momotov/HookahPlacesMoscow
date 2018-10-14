@@ -19,9 +19,9 @@ class ProfileViewController: UIViewController {
     var nameLabel: UILabel!
     var emailLabel: UILabel!
     var countPlacesLabel: UILabel!
-    var countReviewsLabel: UILabel!
+    var countAssessmentsLabel: UILabel!
     var countPlacesTextLabel: UILabel!
-    var countReviewsTextLabel: UILabel!
+    var countAssessmentsTextLabel: UILabel!
     var loginButton: UIButton!
     
     @IBOutlet weak var imageUserView: UIImageView! {
@@ -84,17 +84,17 @@ class ProfileViewController: UIViewController {
             let user = snapshot.value as? NSDictionary
             let name = user?["name"] as? String ?? ""
             let countPlaces = user?["countPlace"] as? Int ?? 0
-            let countReviews = user?["countReviews"] as? Int ?? 0
+            let countAssessments = user?["countAssessment"] as? Int ?? 0
             self.nameLabel.text = name.uppercased()
             self.emailLabel.text = (Auth.auth().currentUser?.email)!
             self.countPlacesLabel.text = "\(countPlaces)"
-            self.countReviewsLabel.text = "\(countReviews)"
+            self.countAssessmentsLabel.text = "\(countAssessments)"
             self.view.addSubview(self.nameLabel)
             self.view.addSubview(self.emailLabel)
             self.view.addSubview(self.countPlacesLabel)
-            self.view.addSubview(self.countReviewsLabel)
+            self.view.addSubview(self.countAssessmentsLabel)
             self.view.addSubview(self.countPlacesTextLabel)
-            self.view.addSubview(self.countReviewsTextLabel)
+            self.view.addSubview(self.countAssessmentsTextLabel)
         }) { (error) in
             self.defaultAlertController(title: "Ошибка", message: error.localizedDescription, actionTitle: "OK", handler: nil)
         }
@@ -113,10 +113,10 @@ class ProfileViewController: UIViewController {
         self.countPlacesLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 22)
         self.countPlacesLabel.textAlignment = .center
         
-        self.countReviewsLabel = UILabel(frame: CGRect(x: self.view.bounds.width / 2, y: 340, width: self.view.bounds.width / 2 - 50, height: 20))
-        self.countReviewsLabel.textColor = UIColor.black
-        self.countReviewsLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 22)
-        self.countReviewsLabel.textAlignment = .center
+        self.countAssessmentsLabel = UILabel(frame: CGRect(x: self.view.bounds.width / 2, y: 340, width: self.view.bounds.width / 2 - 50, height: 20))
+        self.countAssessmentsLabel.textColor = UIColor.black
+        self.countAssessmentsLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 22)
+        self.countAssessmentsLabel.textAlignment = .center
         
         self.countPlacesTextLabel = UILabel(frame: CGRect(x: 50, y: 355, width: self.view.bounds.width / 2 - 50, height: 20))
         self.countPlacesTextLabel.textColor = UIColor.lightGray
@@ -124,11 +124,11 @@ class ProfileViewController: UIViewController {
         self.countPlacesTextLabel.text = "места"
         self.countPlacesTextLabel.textAlignment = .center
         
-        self.countReviewsTextLabel = UILabel(frame: CGRect(x: self.view.bounds.width / 2, y: 355, width: self.view.bounds.width / 2 - 50, height: 20))
-        self.countReviewsTextLabel.textColor = UIColor.lightGray
-        self.countReviewsTextLabel.font = UIFont(name: "AppleSDGothicNeo", size: 12)
-        self.countReviewsTextLabel.text = "оценки"
-        self.countReviewsTextLabel.textAlignment = .center
+        self.countAssessmentsTextLabel = UILabel(frame: CGRect(x: self.view.bounds.width / 2, y: 355, width: self.view.bounds.width / 2 - 50, height: 20))
+        self.countAssessmentsTextLabel.textColor = UIColor.lightGray
+        self.countAssessmentsTextLabel.font = UIFont(name: "AppleSDGothicNeo", size: 12)
+        self.countAssessmentsTextLabel.text = "оценки"
+        self.countAssessmentsTextLabel.textAlignment = .center
     }
     
     @objc func showLoginController() {

@@ -148,11 +148,11 @@
             <objects>
                 <viewController id="zj9-E7-PcY" customClass="DetailPlaceController" customModule="HookahPlacesMoscow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Htq-fS-ZaV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OY2-vG-aTW">
-                                <rect key="frame" x="0.0" y="64" width="375" height="1087"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="740"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohb-Le-pJP">
                                         <rect key="frame" x="19" y="12" width="348" height="21"/>
@@ -304,6 +304,9 @@
                                         <state key="normal" title="  Оценить" image="star-black">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addAssessmentButtonPressed:" destination="zj9-E7-PcY" eventType="touchUpInside" id="S3z-mZ-Hac"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -335,7 +338,7 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
-                    <size key="freeformSize" width="375" height="1200"/>
+                    <size key="freeformSize" width="375" height="800"/>
                     <connections>
                         <outlet property="TimeTableView" destination="PEH-MT-ISi" id="P9x-fI-soX"/>
                         <outlet property="addRatingPlaceButton" destination="9eH-hU-SGB" id="O8k-EN-pKd"/>
@@ -421,7 +424,7 @@
         <scene sceneID="2il-Ec-Xj8">
             <objects>
                 <tableViewController id="qmk-Gk-dgq" customClass="InfoPlaceFiltersController" customModule="HookahPlacesMoscow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Rsg-IM-TmW">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Rsg-IM-TmW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -789,6 +792,210 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fy-mA-s9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4815" y="923"/>
+        </scene>
+        <!--Оценка-->
+        <scene sceneID="Y61-ww-Pyt">
+            <objects>
+                <viewController id="JHS-gr-0r9" customClass="AssessmentPlaceController" customModule="HookahPlacesMoscow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fvI-3t-Vf9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Кальян" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwP-vD-vio">
+                                <rect key="frame" x="16" y="81" width="343" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Заведение" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqN-dV-Yph">
+                                <rect key="frame" x="16" y="178" width="343" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Персонал" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5J-xe-DuI">
+                                <rect key="frame" x="16" y="274" width="343" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D7q-cc-BBG">
+                                <rect key="frame" x="47" y="120" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="hookahRatingOne:" destination="JHS-gr-0r9" eventType="touchUpInside" id="ObW-yY-CTB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGD-uy-Q2m">
+                                <rect key="frame" x="107" y="120" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="hookahRatingTwo:" destination="JHS-gr-0r9" eventType="touchUpInside" id="K1u-Qv-tE0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAZ-4S-pvg">
+                                <rect key="frame" x="167" y="120" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="hookahRatingThree:" destination="JHS-gr-0r9" eventType="touchUpInside" id="mFq-rp-Afy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpV-GZ-mXZ">
+                                <rect key="frame" x="227" y="120" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="hookahRatingFour:" destination="JHS-gr-0r9" eventType="touchUpInside" id="fFS-Iy-mr6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHV-Ar-QJa">
+                                <rect key="frame" x="287" y="120" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="hookahRatingFive:" destination="JHS-gr-0r9" eventType="touchUpInside" id="IDV-ii-o6X"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUs-1d-qKA">
+                                <rect key="frame" x="47" y="217" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="placeRatingOne:" destination="JHS-gr-0r9" eventType="touchUpInside" id="sYs-PK-JK0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kO4-6X-sN2">
+                                <rect key="frame" x="107" y="217" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="placeRatingTwo:" destination="JHS-gr-0r9" eventType="touchUpInside" id="TP8-SI-Ega"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pav-j0-Rob">
+                                <rect key="frame" x="167" y="217" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="placeRatingThree:" destination="JHS-gr-0r9" eventType="touchUpInside" id="R0h-GD-oty"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oIg-QX-C6M">
+                                <rect key="frame" x="227" y="217" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="placeRatingFour:" destination="JHS-gr-0r9" eventType="touchUpInside" id="2nM-Al-Ij4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnf-BE-PCt">
+                                <rect key="frame" x="287" y="217" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="placeRatingFive:" destination="JHS-gr-0r9" eventType="touchUpInside" id="1ot-4a-eGh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YqG-Rf-ngt">
+                                <rect key="frame" x="47" y="312" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="staffRatingOne:" destination="JHS-gr-0r9" eventType="touchUpInside" id="Fcb-jA-5DV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6B-iu-Ob3">
+                                <rect key="frame" x="107" y="312" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="staffRatingTwo:" destination="JHS-gr-0r9" eventType="touchUpInside" id="53u-mo-Z69"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9N-V6-iNc">
+                                <rect key="frame" x="167" y="312" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="staffRatingThree:" destination="JHS-gr-0r9" eventType="touchUpInside" id="JA7-d4-pXW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sMA-pC-a02">
+                                <rect key="frame" x="227" y="312" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="staffRatingFour:" destination="JHS-gr-0r9" eventType="touchUpInside" id="21x-hb-EV0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4RU-sW-lxd">
+                                <rect key="frame" x="287" y="312" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="assessment"/>
+                                <connections>
+                                    <action selector="staffRatingFive:" destination="JHS-gr-0r9" eventType="touchUpInside" id="Mni-sT-kGU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGO-pt-aze">
+                                <rect key="frame" x="16" y="389" width="343" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="19"/>
+                                <state key="normal" title="Оценить">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="addAssessmentsBarButtonPressed:" destination="JHS-gr-0r9" eventType="touchUpInside" id="IzT-d4-uGp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="zmD-qC-XwW"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Оценка" id="kr7-ii-7dZ">
+                        <barButtonItem key="leftBarButtonItem" image="close" id="9T9-tX-idF">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-1"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="closeWindowBarButtonPressed:" destination="JHS-gr-0r9" id="imG-Xm-QnZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="login" id="5dx-Fl-Qgc">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-3"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addAssessmentsBarButtonPressed:" destination="JHS-gr-0r9" id="aon-5l-8M6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addAssessmentButton" destination="mGO-pt-aze" id="glA-HI-JZk"/>
+                        <outlet property="hookahRatingFive" destination="xHV-Ar-QJa" id="8gM-xP-wNu"/>
+                        <outlet property="hookahRatingFour" destination="lpV-GZ-mXZ" id="sEn-qx-Xk2"/>
+                        <outlet property="hookahRatingOne" destination="D7q-cc-BBG" id="mAL-Nz-V79"/>
+                        <outlet property="hookahRatingThree" destination="vAZ-4S-pvg" id="z7W-hv-Cgj"/>
+                        <outlet property="hookahRatingTwo" destination="fGD-uy-Q2m" id="dGS-rK-PJp"/>
+                        <outlet property="placeRatingFive" destination="Xnf-BE-PCt" id="jtl-7n-GMu"/>
+                        <outlet property="placeRatingFour" destination="oIg-QX-C6M" id="g98-4N-gpz"/>
+                        <outlet property="placeRatingOne" destination="JUs-1d-qKA" id="dTg-NT-6jn"/>
+                        <outlet property="placeRatingThree" destination="Pav-j0-Rob" id="rm5-U2-S1f"/>
+                        <outlet property="placeRatingTwo" destination="kO4-6X-sN2" id="mx2-Xu-dJY"/>
+                        <outlet property="staffRatingFive" destination="4RU-sW-lxd" id="BHp-cv-Dng"/>
+                        <outlet property="staffRatingFour" destination="sMA-pC-a02" id="crn-yQ-gca"/>
+                        <outlet property="staffRatingOne" destination="YqG-Rf-ngt" id="ECg-s4-Er2"/>
+                        <outlet property="staffRatingThree" destination="R9N-V6-iNc" id="GH5-wf-7m4"/>
+                        <outlet property="staffRatingTwo" destination="N6B-iu-Ob3" id="8iM-9C-tnI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n9Y-zE-eKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6640.8000000000002" y="662.51874062968523"/>
         </scene>
         <!--Log In Controller-->
         <scene sceneID="rhq-Kg-ZI9">
@@ -1279,9 +1486,29 @@
             </objects>
             <point key="canvasLocation" x="4604" y="3185.7571214392806"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MEl-hi-GfJ">
+            <objects>
+                <navigationController storyboardIdentifier="navControllerAssessment" automaticallyAdjustsScrollViewInsets="NO" id="qZd-5B-mdu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mPU-r8-Vf8">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JHS-gr-0r9" kind="relationship" relationship="rootViewController" id="sUP-fI-gK2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lGl-wI-DLb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5701.6000000000004" y="662.51874062968523"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add_user" width="20" height="20"/>
+        <image name="assessment" width="37.5" height="37.5"/>
         <image name="camera" width="30" height="30"/>
         <image name="close" width="45" height="45"/>
         <image name="error" width="30" height="30"/>
