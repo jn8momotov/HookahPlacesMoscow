@@ -7,19 +7,29 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseStorage
 
 class UsersToPlaceController: UITableViewController {
     
-    var place: Place!
+    var databaseRef: DatabaseReference!
+    var storageRef: StorageReference!
+    
+    var idPlace: Int16!
+    
+    var users: [User] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        databaseRef = Database.database().reference()
+        storageRef = Storage.storage().reference()
+        initUsers()
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -28,13 +38,53 @@ class UsersToPlaceController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userToPlaceCell", for: indexPath) as! UserToPlaceCell
-
-        cell.nameUserLabel.text = "Евгений"
-        cell.imageUserView.image = UIImage(named: "noImageUser")
-
+        let user = users[indexPath.row]
+        cell.nameUserLabel.text = user.name
+        if let image = user.imageData {
+            cell.imageUserView.image = UIImage(data: image)
+        }
+        else {
+            cell.imageUserView.image = UIImage(named: "noImageUser")
+        }
         return cell
     }
     
+    func initUsers() {
+        let spinnerView = UIViewController.displaySpinner(onView: self.view)
+        databaseRef.child("places/\(idPlace!)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshotCountUsers) in
+            let countUsers = snapshotCountUsers.value as? Int ?? 0
+            guard countUsers > 0 else {
+                UIViewController.removeSpinner(spinner: spinnerView)
+                return
+            }
+            var index = 0
+            while index < countUsers {
+                self.databaseRef.child("places/\(self.idPlace!)/users/\(index)").observeSingleEvent(of: .value, with: { (snapshotIdUser) in
+                    let idUser = snapshotIdUser.value as? String ?? ""
+                    if idUser == "" {
+                        self.users = []
+                        return
+                    }
+                    self.databaseRef.child("users/\(idUser)").observeSingleEvent(of: .value, with: { (snapshotUser) in
+                        let user = snapshotUser.value as? NSDictionary
+                        let name = user?["name"] as? String ?? "Не найдено"
+                        let phone = user?["phone"] as? String ?? "Не найдено"
+                        self.storageRef.child("users/\(idUser).png").getData(maxSize: 1 * 1024 * 1024, completion: { (data, error) in
+                            if error == nil {
+                                self.users.append(User(name: name, phone: phone, imageData: data!))
+                            }
+                            else {
+                                self.users.append(User(name: name, phone: phone, imageData: nil))
+                            }
+                            UIViewController.removeSpinner(spinner: spinnerView)
+                            self.tableView.reloadData()
+                        })
+                    })
+                })
+                index += 1
+            }
+        }
+    }
     
 
     /*

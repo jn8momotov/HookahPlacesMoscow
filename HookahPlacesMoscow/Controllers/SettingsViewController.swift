@@ -93,6 +93,7 @@ class SettingsViewController: UITableViewController {
             let alertController = UIAlertController(title: "Выйти?", message: nil, preferredStyle: .actionSheet)
             let exitAction = UIAlertAction(title: "Выход", style:  .destructive) { (exitAction) in
                 self.signOutUser()
+                isPlace = false
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let initial = storyboard.instantiateInitialViewController()
                 UIApplication.shared.keyWindow?.rootViewController = initial

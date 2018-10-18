@@ -146,7 +146,7 @@
         <!--Detail Place Controller-->
         <scene sceneID="0K3-h2-7fv">
             <objects>
-                <viewController id="zj9-E7-PcY" customClass="DetailPlaceController" customModule="HookahPlacesMoscow" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailPlaceController" id="zj9-E7-PcY" customClass="DetailPlaceController" customModule="HookahPlacesMoscow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Htq-fS-ZaV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -181,7 +181,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="   5" image="users">
+                                        <state key="normal" title="   0" image="users">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -676,11 +676,30 @@
                                 <rect key="frame" x="132" y="90" width="110" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pK0-s2-fWH">
+                                <rect key="frame" x="16" y="441" width="343" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Вы сейчас находитесь:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyB-St-bXT">
+                                <rect key="frame" x="16" y="412" width="343" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vuh-lS-SJn"/>
                     </view>
                     <navigationItem key="navigationItem" title="Профиль" id="8QK-ws-OdU">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="refresh" id="Fgo-Vp-a00">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-8"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="updateDataBarButtonPressed:" destination="sxk-aI-i1W" id="Wa7-Yf-Tqw"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="settings" id="Drg-li-qjS">
                             <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-8"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -690,6 +709,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="currentPlaceView" destination="pK0-s2-fWH" id="Ldu-4X-spM"/>
                         <outlet property="imageUserView" destination="v7t-j4-goG" id="Kh7-Wx-DXd"/>
                     </connections>
                 </viewController>
@@ -1364,17 +1384,20 @@
                                         <state key="normal" image="add_user">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addUserToPlaceButtonPressed:" destination="7aJ-hM-A0y" eventType="touchUpInside" id="5vU-Hm-RZR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWd-tw-AeH">
                                         <rect key="frame" x="229" y="78" width="90" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <state key="normal" title="  5" image="people">
+                                        <state key="normal" title="  0" image="people">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Rzu-XZ-ErV" kind="show" id="HbM-yW-Wjc"/>
+                                            <segue destination="Rzu-XZ-ErV" kind="show" identifier="segueToUsersList" id="HbM-yW-Wjc"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1523,6 +1546,7 @@
         <image name="people" width="30" height="30"/>
         <image name="phone" width="20" height="20"/>
         <image name="profile" width="30" height="30"/>
+        <image name="refresh" width="30" height="30"/>
         <image name="search" width="30" height="30"/>
         <image name="settings" width="30" height="30"/>
         <image name="star" width="14.399999618530273" height="14.399999618530273"/>
@@ -1531,7 +1555,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hll-da-BOK"/>
-        <segue reference="2cZ-d9-PpW"/>
+        <segue reference="HbM-yW-Wjc"/>
         <segue reference="gTq-gT-yS4"/>
     </inferredMetricsTieBreakers>
 </document>

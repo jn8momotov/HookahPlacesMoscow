@@ -22,6 +22,7 @@
 		7A9F2ED421567685001698D1 /* Place+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9F2ED321567685001698D1 /* Place+CoreDataProperties.swift */; };
 		7A9F2ED62156778B001698D1 /* Place+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9F2ED52156778B001698D1 /* Place+CoreDataClass.swift */; };
 		7AB1FFF72156E5750052EEAE /* MainSegmentioControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB1FFF62156E5750052EEAE /* MainSegmentioControl.swift */; };
+		7AB5AD082179144500FB5A6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB5AD072179144500FB5A6A /* User.swift */; };
 		7ABA092A216022BD00820541 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABA0929216022BD00820541 /* ExtensionViewController.swift */; };
 		7ABA092C216025CC00820541 /* DetailPlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABA092B216025CC00820541 /* DetailPlaceController.swift */; };
 		7ABB64262153C1B7008D00E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABB64252153C1B7008D00E4 /* AppDelegate.swift */; };
@@ -59,6 +60,7 @@
 		7A9F2ED321567685001698D1 /* Place+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Place+CoreDataProperties.swift"; path = "/Users/evgeniy/Documents/Приложения/HookahPlacesMoscow/Place+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		7A9F2ED52156778B001698D1 /* Place+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7AB1FFF62156E5750052EEAE /* MainSegmentioControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSegmentioControl.swift; sourceTree = "<group>"; };
+		7AB5AD072179144500FB5A6A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7ABA0929216022BD00820541 /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		7ABA092B216025CC00820541 /* DetailPlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPlaceController.swift; sourceTree = "<group>"; };
 		7ABB64222153C1B7008D00E4 /* HookahPlacesMoscow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahPlacesMoscow.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,8 +122,8 @@
 				7AEBB305216D4FDA003E8C30 /* UsersToPlaceController.swift */,
 				7AEBB309216D6609003E8C30 /* ResetPasswordController.swift */,
 				7A33DC6C216EA7B10095CB7B /* InfoPlaceFiltersController.swift */,
-				7ABA0929216022BD00820541 /* ExtensionViewController.swift */,
 				7A25069321712B6B00A37AAB /* AssessmentPlaceController.swift */,
+				7ABA0929216022BD00820541 /* ExtensionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				7AC03F8A2162C0A8005F2C0F /* Model.swift */,
+				7AB5AD072179144500FB5A6A /* User.swift */,
 				7AC03F942162CFCE005F2C0F /* PointAnnotation.swift */,
 				7A9F2ED52156778B001698D1 /* Place+CoreDataClass.swift */,
 				7A9F2ED321567685001698D1 /* Place+CoreDataProperties.swift */,
@@ -341,6 +344,7 @@
 				7AF843FA21650071001F3A3C /* SettingsViewController.swift in Sources */,
 				7A9F2ED62156778B001698D1 /* Place+CoreDataClass.swift in Sources */,
 				7A39AE6A2167EDEC009BC2F5 /* FilterCell.swift in Sources */,
+				7AB5AD082179144500FB5A6A /* User.swift in Sources */,
 				7A447FCB2164241F0093D162 /* ProfileViewController.swift in Sources */,
 				7AD998122167FFC100D2FF77 /* SearchPlacesController.swift in Sources */,
 				7AEBB308216D50C8003E8C30 /* UserToPlaceCell.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 import Segmentio
@@ -170,6 +171,11 @@ extension MainController {
     func loadData(completionHandler: (() -> Void)?) {
         let entityPlace = NSEntityDescription.entity(forEntityName: "Place", in: context)
         databaseRef = Database.database().reference()
+        if let user = Auth.auth().currentUser {
+            databaseRef.child("users/\(user.uid)/isPlace").observeSingleEvent(of: .value) { (snapshot) in
+                isPlace = snapshot.value as? Bool ?? true
+            }
+        }
         databaseRef.child("countPlaces").observeSingleEvent(of: .value, with: { (snapshot) in
             let count = snapshot.value as? NSInteger
             var index = 0

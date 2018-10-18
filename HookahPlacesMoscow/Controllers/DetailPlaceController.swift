@@ -96,6 +96,7 @@ class DetailPlaceController: UIViewController {
         databaseRef = Database.database().reference()
         initIsAssessment()
         initData()
+        initCountUsers()
         initSegmentedControl()
         updateRating()
         initConfigBackBarButton()
@@ -124,6 +125,20 @@ class DetailPlaceController: UIViewController {
             self.present(controller!, animated: true, completion: nil)
             return
         }
+        guard !isPlace else {
+            defaultAlertController(title: "Упс..", message: "Вы уже находитесь в заведении", actionTitle: "OK", handler: nil)
+            return
+        }
+        let alertController = UIAlertController(title: nil, message: "Вы действительно находитесь в этом заведении?", preferredStyle: .alert)
+        alertController.view.tintColor = UIColor.black
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "Подтверждаю", style: .default) { (okAction) in
+            self.addUserToFirebase()
+            isPlace = true
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func addAssessmentButtonPressed(_ sender: Any) {
@@ -150,6 +165,7 @@ class DetailPlaceController: UIViewController {
         switch segue.identifier {
         case "segueToUsersToPlaceController":
             let controller = segue.destination as? UsersToPlaceController
+            controller?.idPlace = place.id
         case "segueToInfoFilters":
             let controller = segue.destination as? InfoPlaceFiltersController
             controller?.place = place
@@ -216,6 +232,36 @@ class DetailPlaceController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func initCountUsers() {
+        databaseRef.child("places/\(place.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
+            self.countUsersButton.setTitle("   \(snapshot.value as? Int ?? 0)", for: .normal)
+        }
+    }
+    
+    func addUserToFirebase() {
+        databaseRef.child("places/\(place.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
+            let count = snapshot.value as? Int ?? -1
+            guard count != -1 else {
+                self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
+                return
+            }
+            self.databaseRef.child("places/\(self.place.id)/users/\(count)").setValue((Auth.auth().currentUser?.uid)!)
+            let countUsers = count + 1
+            self.databaseRef.child("places/\(self.place.id)/countCurrentUsers").setValue(countUsers)
+        }
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").observeSingleEvent(of: .value) { (snapshot) in
+            var count = snapshot.value as? Int ?? -1
+            guard count != -1 else {
+                self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
+                return
+            }
+            count += 1
+            self.databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").setValue(count)
+        }
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/isPlace").setValue(true)
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/idPlace").setValue(place.id)
     }
     
     func initIsAssessment() {

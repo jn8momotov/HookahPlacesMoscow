@@ -9,3 +9,5 @@
 import Foundation
 
 var likePlaces: [Place] = []
+
+var isPlace = false

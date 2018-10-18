@@ -10,10 +10,14 @@ import UIKit
 import MapKit
 import CoreLocation
 import CoreData
+import FirebaseDatabase
+import FirebaseAuth
 
 class MapViewController: UIViewController {
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var databaseRef: DatabaseReference!
     
     fileprivate let locationManager = CLLocationManager()
     
@@ -81,6 +85,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        databaseRef = Database.database().reference()
         mapView.delegate = self
         detailPlaceView.isHidden = true
         closeDetailViewButton.isHidden = true
@@ -101,6 +106,9 @@ class MapViewController: UIViewController {
         case "toDetailSegue":
             let controller = segue.destination as? DetailPlaceController
             controller?.place = place
+        case "segueToUsersList":
+            let controller = segue.destination as? UsersToPlaceController
+            controller?.idPlace = place.id
         default:
             return
         }
@@ -115,6 +123,28 @@ class MapViewController: UIViewController {
     @IBAction func hideDetailViewButtonPressed(_ sender: Any) {
         self.detailPlaceView.isHidden = true
         self.closeDetailViewButton.isHidden = true
+    }
+    
+    @IBAction func addUserToPlaceButtonPressed(_ sender: Any) {
+        guard Auth.auth().currentUser != nil else {
+            let controller = storyboard?.instantiateViewController(withIdentifier: "loginViewController") as? LogInController
+            self.present(controller!, animated: true, completion: nil)
+            return
+        }
+        guard !isPlace else {
+            defaultAlertController(title: "Упс..", message: "Вы уже находитесь в заведении", actionTitle: "OK", handler: nil)
+            return
+        }
+        let alertController = UIAlertController(title: nil, message: "Вы действительно находитесь в этом заведении?", preferredStyle: .alert)
+        alertController.view.tintColor = UIColor.black
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "Подтверждаю", style: .default) { (okAction) in
+            self.addUserToFirebase()
+            isPlace = true
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Functions
@@ -154,6 +184,9 @@ class MapViewController: UIViewController {
     
     // Заполнение информации по заведению
     func configureDetailView(place: Place) {
+        databaseRef.child("places/\(place.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
+            self.countUsersButton.setTitle("  \(snapshot.value as? Int ?? 0)", for: .normal)
+        }
         self.namePlaceLabel.text = "\(place.name!) \(place.metroStation!)"
         self.distanceToPlaceLabel.text = "\(place.distance) км"
         self.ratingPlaceLabel.text = "\(place.rating)"
@@ -163,6 +196,30 @@ class MapViewController: UIViewController {
         else {
             self.imagePlace.image = UIImage(named: "NoImage")
         }
+    }
+    
+    func addUserToFirebase() {
+        databaseRef.child("places/\(place.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
+            let count = snapshot.value as? Int ?? -1
+            guard count != -1 else {
+                self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
+                return
+            }
+            self.databaseRef.child("places/\(self.place.id)/users/\(count)").setValue((Auth.auth().currentUser?.uid)!)
+            let countUsers = count + 1
+            self.databaseRef.child("places/\(self.place.id)/countCurrentUsers").setValue(countUsers)
+        }
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").observeSingleEvent(of: .value) { (snapshot) in
+            var count = snapshot.value as? Int ?? -1
+            guard count != -1 else {
+                self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
+                return
+            }
+            count += 1
+            self.databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").setValue(count)
+        }
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/isPlace").setValue(true)
+        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/idPlace").setValue(place.id)
     }
     
 }
