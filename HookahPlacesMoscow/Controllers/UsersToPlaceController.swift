@@ -57,32 +57,32 @@ class UsersToPlaceController: UITableViewController {
                 UIViewController.removeSpinner(spinner: spinnerView)
                 return
             }
-            var index = 0
-            while index < countUsers {
-                self.databaseRef.child("places/\(self.idPlace!)/users/\(index)").observeSingleEvent(of: .value, with: { (snapshotIdUser) in
-                    let idUser = snapshotIdUser.value as? String ?? ""
-                    if idUser == "" {
-                        self.users = []
-                        return
-                    }
-                    self.databaseRef.child("users/\(idUser)").observeSingleEvent(of: .value, with: { (snapshotUser) in
-                        let user = snapshotUser.value as? NSDictionary
-                        let name = user?["name"] as? String ?? "Не найдено"
-                        let phone = user?["phone"] as? String ?? "Не найдено"
-                        self.storageRef.child("users/\(idUser).png").getData(maxSize: 1 * 1024 * 1024, completion: { (data, error) in
-                            if error == nil {
-                                self.users.append(User(name: name, phone: phone, imageData: data!))
-                            }
-                            else {
-                                self.users.append(User(name: name, phone: phone, imageData: nil))
-                            }
-                            UIViewController.removeSpinner(spinner: spinnerView)
-                            self.tableView.reloadData()
+                
+            self.databaseRef.child("places/\(self.idPlace!)/users").queryOrdered(byChild: "id").observe(.childAdded, with: { (snapshot) in
+                if let objects = snapshot.value as? [String: AnyObject] {
+                    for obj in objects {
+                        self.databaseRef.child("users/\(obj.value)").observeSingleEvent(of: .value, with: { (snapshotUser) in
+                            let user = snapshotUser.value as? NSDictionary
+                            let name = user?["name"] as? String ?? "Не найдено"
+                            let phone = user?["phone"] as? String ?? "Не найдено"
+                            self.storageRef.child("users/\(obj.value).png").getData(maxSize: 1 * 1024 * 1024, completion: { (data, error) in
+                                if error == nil {
+                                    self.users.append(User(name: name, phone: phone, imageData: data!))
+                                }
+                                else {
+                                    self.users.append(User(name: name, phone: phone, imageData: nil))
+                                }
+                                UIViewController.removeSpinner(spinner: spinnerView)
+                                self.tableView.reloadData()
+                            })
                         })
-                    })
-                })
-                index += 1
-            }
+                        
+                    }
+                }
+                else {
+                    UIViewController.removeSpinner(spinner: spinnerView)
+                }
+            })
         }
     }
     

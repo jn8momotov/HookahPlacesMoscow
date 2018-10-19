@@ -87,6 +87,10 @@ class ProfileViewController: UIViewController {
     */
     
     @IBAction func updateDataBarButtonPressed(_ sender: UIBarButtonItem) {
+        updateData()
+    }
+    
+    func updateData() {
         if let user = Auth.auth().currentUser {
             databaseRef.child("users/\(user.uid)").observeSingleEvent(of: .value, with: { (snapshot) in
                 let object = snapshot.value as? NSDictionary
@@ -186,11 +190,34 @@ class ProfileViewController: UIViewController {
         alertController.view.tintColor = UIColor.black
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         let exitAction = UIAlertAction(title: "Уйти", style: .default) { (exitAction) in
-            
+            self.exitUser()
+            isPlace = false
+            self.updateData()
         }
         alertController.addAction(cancelAction)
         alertController.addAction(exitAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func exitUser() {
+        let userId = (Auth.auth().currentUser?.uid)!
+        databaseRef.child("users/\(userId)/isPlace").setValue(false)
+        databaseRef.child("users/\(userId)/autoIdPlace").observeSingleEvent(of: .value) { (snapshot) in
+            let idPlace = snapshot.value as? String ?? ""
+            guard idPlace != "" else {
+                return
+            }
+            self.databaseRef.child("places/\(self.currentPlace!.id)/users/\(idPlace)").removeValue()
+        }
+        databaseRef.child("places/\(currentPlace!.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
+            var countCurrentUsers = snapshot.value as? Int ?? -1
+            guard countCurrentUsers != -1 else {
+                return
+            }
+            countCurrentUsers -= 1
+            self.databaseRef.child("places/\(self.currentPlace!.id)/countCurrentUsers").setValue(countCurrentUsers)
+        }
+        databaseRef.child("users/\(userId)/idPlace").removeValue()
     }
     
     @objc func detailPlaceButtonPressed() {

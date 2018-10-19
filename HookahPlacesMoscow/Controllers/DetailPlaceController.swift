@@ -241,27 +241,31 @@ class DetailPlaceController: UIViewController {
     }
     
     func addUserToFirebase() {
+        let key = self.databaseRef.child("places/\(self.place.id)/users").childByAutoId().key
+        let userId = (Auth.auth().currentUser?.uid)!
         databaseRef.child("places/\(place.id)/countCurrentUsers").observeSingleEvent(of: .value) { (snapshot) in
-            let count = snapshot.value as? Int ?? -1
+            var count = snapshot.value as? Int ?? -1
             guard count != -1 else {
                 self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
                 return
             }
-            self.databaseRef.child("places/\(self.place.id)/users/\(count)").setValue((Auth.auth().currentUser?.uid)!)
-            let countUsers = count + 1
-            self.databaseRef.child("places/\(self.place.id)/countCurrentUsers").setValue(countUsers)
+            let addNewUser = ["places/\(self.place.id)/users/\(key)/id": userId,
+                              "users/\(userId)/autoIdPlace": key]
+            self.databaseRef.updateChildValues(addNewUser)
+            count += 1
+            self.databaseRef.child("places/\(self.place.id)/countCurrentUsers").setValue(count)
         }
-        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").observeSingleEvent(of: .value) { (snapshot) in
+        databaseRef.child("users/\(userId)/countPlace").observeSingleEvent(of: .value) { (snapshot) in
             var count = snapshot.value as? Int ?? -1
             guard count != -1 else {
                 self.defaultAlertController(title: "Ошибка", message: "Попробуйте повторить попытку", actionTitle: "OK", handler: nil)
                 return
             }
             count += 1
-            self.databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/countPlace").setValue(count)
+            self.databaseRef.child("users/\(userId)/countPlace").setValue(count)
         }
-        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/isPlace").setValue(true)
-        databaseRef.child("users/\((Auth.auth().currentUser?.uid)!)/idPlace").setValue(place.id)
+        databaseRef.child("users/\(userId)/isPlace").setValue(true)
+        databaseRef.child("users/\(userId)/idPlace").setValue(place.id)
     }
     
     func initIsAssessment() {
